@@ -20,9 +20,41 @@ namespace ConsoleApplication
             //RetrieveDataWithStoredProc();
             //DeleteNinja();
             //DeleteNinjaWithStoredProc();
-            InsertNinjaWithEquipment();
+            //InsertNinjaWithEquipment();
+            SimpleNinjaGraphQuery();
             Console.ReadKey();
         }
+
+        private static void SimpleNinjaGraphQuery()
+        {
+            Ninja ninja;
+            var LoadingType = "lazy";
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                switch (LoadingType)
+                {
+                    case "eager":
+                         ninja = context.Ninjas
+                            .Include(n => n.EquipmentOwned)
+                            .FirstOrDefault(n => n.Name == "Joe Ortiz");
+                        break;
+                    case "explicit":
+                         ninja = context.Ninjas.FirstOrDefault(n => n.Name.StartsWith("Joe Ortiz"));
+                        Console.WriteLine("Ninja Retrieved:" + ninja.Name);
+                        context.Entry(ninja).Collection(n => n.EquipmentOwned).Load();
+                        break;
+                    case "lazy":
+                        ninja = context.Ninjas.FirstOrDefault(n => n.Name.StartsWith("Joe Ortiz"));
+                        Console.WriteLine("Ninja Retrieved:" + ninja.Name);
+                        Console.WriteLine("Ninja Equipment Count: " + ninja.EquipmentOwned.Count()); 
+                        //mark EquipmentOwned property as virtual. Be careful with performance issues.
+                        break;
+                }
+            }
+        }
+
+    
 
         private static void InsertNinjaWithEquipment()
         {
