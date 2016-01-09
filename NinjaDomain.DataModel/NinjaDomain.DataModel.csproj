@@ -53,6 +53,10 @@
     <Compile Include="Migrations\201601092014341_Initial.Designer.cs">
       <DependentUpon>201601092014341_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601092025182_AddDateOfBirth.cs" />
+    <Compile Include="Migrations\201601092025182_AddDateOfBirth.Designer.cs">
+      <DependentUpon>201601092025182_AddDateOfBirth.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NinjaContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,6 +74,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201601092014341_Initial.resx">
       <DependentUpon>201601092014341_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601092025182_AddDateOfBirth.resx">
+      <DependentUpon>201601092025182_AddDateOfBirth.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
