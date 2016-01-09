@@ -21,8 +21,20 @@ namespace ConsoleApplication
             //DeleteNinja();
             //DeleteNinjaWithStoredProc();
             //InsertNinjaWithEquipment();
-            SimpleNinjaGraphQuery();
+            //SimpleNinjaGraphQuery();
+            ProjectQuery();
             Console.ReadKey();
+        }
+
+        private static void ProjectQuery()
+        {
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                var ninjas = context.Ninjas
+                    .Select(n => new {n.Name, n.DateOfBirth, n.EquipmentOwned})
+                    .ToList();
+            }
         }
 
         private static void SimpleNinjaGraphQuery()
