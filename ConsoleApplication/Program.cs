@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Linq;
 using NinjaDomain.Classes;
 using NinjaDomain.DataModel;
@@ -19,7 +20,42 @@ namespace ConsoleApplication
             //RetrieveDataWithStoredProc();
             //DeleteNinja();
             //DeleteNinjaWithStoredProc();
+            InsertNinjaWithEquipment();
             Console.ReadKey();
+        }
+
+        private static void InsertNinjaWithEquipment()
+        {
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+
+                var ninja = new Ninja()
+                {
+                    Name = "Joe Ortiz",
+                    ServedInOniwaban = false,
+                    DateOfBirth = new DateTime(1990, 1, 1),
+                    ClanId = 1
+                };
+
+                var muscles = new NinjaEquipment
+                {
+                    Name = "Muscles",
+                    Type = EquipmentType.Tool
+                };
+
+                var spunk = new NinjaEquipment()
+                {
+                    Name = "Spunk",
+                    Type = EquipmentType.Weapon
+                };
+
+                context.Ninjas.Add(ninja);
+                ninja.EquipmentOwned.Add(muscles);
+                ninja.EquipmentOwned.Add(spunk);
+                context.SaveChanges();
+
+            }
         }
 
         private static void DeleteNinjaWithStoredProc()
@@ -129,7 +165,7 @@ namespace ConsoleApplication
             
             var ninja = new Ninja
             {
-                Name = "LondonSan",
+                Name = "JoeSan",
                 ServedInOniwaban = false,
                 DateOfBirth = new DateTime(2015, 11,15),
                 ClanId = 1
