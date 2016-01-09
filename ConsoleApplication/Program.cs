@@ -13,7 +13,19 @@ namespace ConsoleApplication
             //Database.SetInitializer(new NullDatabaseInitializer<NinjaContext>());
             //InsertNinja();
             //SimpleNinjaQueries();
+            QueryAndUpdateNinja();
             Console.ReadKey();
+        }
+
+        private static void QueryAndUpdateNinja()
+        {
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                var ninja = context.Ninjas.FirstOrDefault();
+                ninja.ServedInOniwaban = (!ninja.ServedInOniwaban);
+                context.SaveChanges();
+            }
         }
 
         private static void SimpleNinjaQueries()
