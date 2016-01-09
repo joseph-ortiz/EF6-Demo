@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Linq;
 using NinjaDomain.Classes;
 using NinjaDomain.DataModel;
 
@@ -11,13 +12,20 @@ namespace ConsoleApplication
         {
             //Database.SetInitializer(new NullDatabaseInitializer<NinjaContext>());
             //InsertNinja();
-            SimpleNinjaQueries();
+            //SimpleNinjaQueries();
             Console.ReadKey();
         }
 
         private static void SimpleNinjaQueries()
         {
-            throw new NotImplementedException();
+            using (var context = new NinjaContext())
+            {
+                var ninjas = context.Ninjas.Where(x => x.Name == "JoeSan");
+                foreach (var ninja in ninjas)
+                {
+                    Console.WriteLine(ninja.Name);
+                }
+            }
         }
 
         private static void InsertNinja()
