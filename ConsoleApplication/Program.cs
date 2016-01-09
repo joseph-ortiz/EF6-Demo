@@ -16,8 +16,39 @@ namespace ConsoleApplication
             //QueryAndUpdateNinja();
             //QueryAndUpdateNinjaDisconnected();
             //RetrieveDataWithFind();
-            RetrieveDataWithStoredProc();
+            //RetrieveDataWithStoredProc();
+            //DeleteNinja();
+            //DeleteNinjaWithStoredProc();
             Console.ReadKey();
+        }
+
+        private static void DeleteNinjaWithStoredProc()
+        {
+            var keyVal = 2;
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                context.Database.ExecuteSqlCommand("exec DeleteNinjaViaId {0}", keyVal);
+            }
+        }
+
+        private static void DeleteNinja()
+        {
+            Ninja ninja;
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                ninja = context.Ninjas.FirstOrDefault();
+            }
+
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                context.Entry(ninja).State = EntityState.Deleted;
+                //context.Ninjas.Remove(ninja);
+                //context.Ninjas.Remove(ninja);
+                context.SaveChanges();
+            }
         }
 
         private static void RetrieveDataWithStoredProc()
